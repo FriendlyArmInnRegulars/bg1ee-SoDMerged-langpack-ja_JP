@@ -37,17 +37,48 @@ REQUIRE_PREDICATE GAME_IS ~bgee bg1ee~ @100001 // ~このコンポーネント�
 
 PRINT @100100 // ~日本語化パックをインストールしています...~
 
-// WeiDUは LANGUAGE 宣言で指定された dialog.tra と dialogf.tra を使用して
-// 自動的に lang/ja_JP/dialog.tlk と lang/ja_JP/dialogf.tlk を生成します
-//
-// このコンポーネントでは、追加の処理は不要です
-// WeiDUが自動的に以下を行います:
-//   1. 元のゲームの dialog.tlk を読み込む
-//   2. dialog.tra の翻訳を適用
-//   3. lang/ja_JP/dialog.tlk として保存
-//
-// プレイヤーはゲーム設定で「Japanese (日本語)」を選択することで
-// 自動生成された日本語版 dialog.tlk が使用されます
+// dialog.traの翻訳をdialog.tlkに適用
+// ALTER_TLKを使用して、元のdialog.tlkをベースに日本語版を作成
+
+ACTION_IF NOT FILE_EXISTS ~lang/ja_JP~ BEGIN
+  MKDIR ~lang/ja_JP~
+END
+
+// 元のdialog.tlkをコピーして、lang/ja_JP/に配置
+COPY_EXISTING ~dialog.tlk~ ~lang/ja_JP/dialog.tlk~
+
+// dialogf.tlkも同様に処理
+ACTION_IF FILE_EXISTS_IN_GAME ~dialogf.tlk~ BEGIN
+  COPY_EXISTING ~dialogf.tlk~ ~lang/ja_JP/dialogf.tlk~
+END
+
+// lang/ja_JP/dialog.tlkに翻訳を適用
+// LANGUAGEブロックで読み込んだdialog.traの文字列を使用
+COPY ~lang/ja_JP/dialog.tlk~ ~lang/ja_JP/dialog.tlk~
+  // @0から@71403までの文字列を置換
+  FOR (i = 0; i <= 71403; ++i) BEGIN
+    // traファイルから文字列を取得
+    SPRINT text (AT i)
+    // 空でなければ設定
+    PATCH_IF (~%text%~ STR_CMP ~~) AND
+             (~%text%~ STR_CMP ~<NO TEXT>~) BEGIN
+      SET_STRING i ~%text%~
+    END
+  END
+BUT_ONLY
+
+// dialogf.tlkも同様に処理（女性用）
+ACTION_IF FILE_EXISTS ~lang/ja_JP/dialogf.tlk~ BEGIN
+  COPY ~lang/ja_JP/dialogf.tlk~ ~lang/ja_JP/dialogf.tlk~
+    FOR (i = 0; i <= 71403; ++i) BEGIN
+      SPRINT text (ATF i)  // ATF = AT Female
+      PATCH_IF (~%text%~ STR_CMP ~~) AND
+               (~%text%~ STR_CMP ~<NO TEXT>~) BEGIN
+        SET_STRING i ~%text%~
+      END
+    END
+  BUT_ONLY
+END
 
 PRINT @100101 // ~日本語化パックのインストールが完了しました~
 
