@@ -1,0 +1,68 @@
+BACKUP ~bg1ee_sod_jp/backup~
+AUTHOR ~FriendlyArmInnRegulars~
+VERSION ~v1.0.0~
+
+README ~bg1ee_sod_jp/readme/readme-%LANGUAGE%.txt~ ~bg1ee_sod_jp/readme/readme.txt~
+
+ALWAYS
+  // ゲームの種類を検出
+  ACTION_IF NOT GAME_IS ~bgee bg1ee~ BEGIN
+    FAIL ~このModはBaldur's Gate Enhanced Editionが必要です / This mod requires Baldur's Gate Enhanced Edition~
+  END
+
+  // Siege of Dragonspearがインストールされているか確認
+  ACTION_IF NOT FILE_EXISTS_IN_GAME ~bd0103.are~ BEGIN
+    WARN ~警告: Siege of Dragonspearが検出されませんでした。一部の翻訳が適用されない可能性があります。~
+  END
+END
+
+AUTO_EVAL_STRINGS
+
+// 日本語言語定義
+LANGUAGE ~Japanese (日本語)~
+         ~ja_JP~
+         ~bg1ee_sod_jp/lang/ja_JP/setup.tra~
+         ~bg1ee_sod_jp/lang/ja_JP/game.tra~
+         ~bg1ee_sod_jp/lang/ja_JP/dialog.tra~
+         ~bg1ee_sod_jp/lang/ja_JP/dialogf.tra~
+
+// ====================================================
+// メインコンポーネント: BGEE本編 日本語化
+// ====================================================
+BEGIN @0 // ~BGEE & SoD 日本語化~
+DESIGNATED 0
+REQUIRE_PREDICATE GAME_IS ~bgee bg1ee~ @1 // ~このコンポーネントはBGEEが必要です~
+
+PRINT @100 // ~日本語化パックをインストールしています...~
+
+// WeiDUの LANGUAGE 宣言により、dialog.tra と dialogf.tra の内容は
+// 自動的に日本語版の dialog.tlk として統合されます。
+//
+// ゲームは以下の場所に日本語版tlkファイルを作成します:
+// <game_dir>/lang/ja_JP/dialog.tlk
+// <game_dir>/lang/ja_JP/dialogf.tlk
+//
+// プレイヤーはゲームの設定で「Japanese (日本語)」を選択することで
+// 日本語化されたゲームをプレイできます。
+
+// 追加のゲームファイルのパッチがここに入ります
+// 例: UIテキスト、メニュー、その他dialog.tlk以外のテキスト
+
+PRINT @101 // ~日本語化パックのインストールが完了しました~
+
+// ====================================================
+// オプショナルコンポーネント: SoD追加コンテンツ日本語化
+// ====================================================
+BEGIN @10 // ~Siege of Dragonspear コンテンツ日本語化~
+DESIGNATED 10
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~bd0103.are~ @11 // ~このコンポーネントはSiege of Dragonspearが必要です~
+
+// SoD固有のダイアログや文字列の翻訳を適用
+
+// ====================================================
+// オプショナルコンポーネント: UI要素の日本語化
+// ====================================================
+BEGIN @20 // ~UI要素の日本語化~
+DESIGNATED 20
+
+// UI関連の文字列を日本語化

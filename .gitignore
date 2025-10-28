@@ -1,0 +1,31 @@
+# WeiDU backup and debug files
+bg1ee_sod_jp/backup/
+*.debug
+*.DEBUG
+
+# WeiDU temporary files
+*.bak
+*.BAK
+*.tmp
+*.TMP
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+*:Zone.Identifier
+
+# Editor backup files
+*~
+*.swp
+*.swo
+
+# Build artifacts
+setup-bg1ee_sod_jp.exe
+weidu
+weidu.exe
+
+# Release packages
+releases/
+*.zip
+*.tar.gz
