@@ -37,22 +37,17 @@ REQUIRE_PREDICATE GAME_IS ~bgee bg1ee~ @100001 // ~このコンポーネント�
 
 PRINT @100100 // ~日本語化パックをインストールしています...~
 
-// dialog.traの全ての翻訳を適用
-// LANGUAGE宣言により@0-@71403は既に読み込まれている
-// これらをゲームのdialog.tlkに書き込む
-
-// ループで全文字列を設定（0から71403まで）
-// 注: この処理には時間がかかる場合があります
-OUTER_FOR (i = 0; i <= 71403; ++i) BEGIN
-  OUTER_SET strref = i
-  // 翻訳文字列を取得して設定
-  OUTER_SPRINT text (AT strref)
-  // <NO TEXT>や空文字列でない場合のみ設定
-  ACTION_IF (~%text%~ STR_CMP ~~) AND
-            (~%text%~ STR_CMP ~<NO TEXT>~) BEGIN
-    STRING_SET_EVALUATE strref ~%text%~
-  END
-END
+// WeiDUは LANGUAGE 宣言で指定された dialog.tra と dialogf.tra を使用して
+// 自動的に lang/ja_JP/dialog.tlk と lang/ja_JP/dialogf.tlk を生成します
+//
+// このコンポーネントでは、追加の処理は不要です
+// WeiDUが自動的に以下を行います:
+//   1. 元のゲームの dialog.tlk を読み込む
+//   2. dialog.tra の翻訳を適用
+//   3. lang/ja_JP/dialog.tlk として保存
+//
+// プレイヤーはゲーム設定で「Japanese (日本語)」を選択することで
+// 自動生成された日本語版 dialog.tlk が使用されます
 
 PRINT @100101 // ~日本語化パックのインストールが完了しました~
 
