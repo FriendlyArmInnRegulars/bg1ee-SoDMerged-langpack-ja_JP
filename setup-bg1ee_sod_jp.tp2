@@ -58,11 +58,12 @@ COPY ~lang/ja_JP/dialog.tlk~ ~lang/ja_JP/dialog.tlk~
   // @0から@71403までの文字列を置換
   FOR (i = 0; i <= 71403; ++i) BEGIN
     // traファイルから文字列を取得
+    SET strref = i
     SPRINT text (AT i)
     // 空でなければ設定
     PATCH_IF (~%text%~ STR_CMP ~~) AND
              (~%text%~ STR_CMP ~<NO TEXT>~) BEGIN
-      SET_STRING i ~%text%~
+      SET_STRING %strref% ~%text%~
     END
   END
 BUT_ONLY
@@ -71,10 +72,11 @@ BUT_ONLY
 ACTION_IF FILE_EXISTS ~lang/ja_JP/dialogf.tlk~ BEGIN
   COPY ~lang/ja_JP/dialogf.tlk~ ~lang/ja_JP/dialogf.tlk~
     FOR (i = 0; i <= 71403; ++i) BEGIN
+      SET strref = i
       SPRINT text (ATF i)  // ATF = AT Female
       PATCH_IF (~%text%~ STR_CMP ~~) AND
                (~%text%~ STR_CMP ~<NO TEXT>~) BEGIN
-        SET_STRING i ~%text%~
+        SET_STRING %strref% ~%text%~
       END
     END
   BUT_ONLY
