@@ -29,6 +29,12 @@ See `bg1ee_sod_jp/readme/readme-ja_JP.txt` for detailed instructions.
 4. コンポーネントを選択してインストール / Select and install components
 5. ゲーム設定で Japanese (日本語) を選択 / Select Japanese (日本語) in game settings
 
+### Steam版（SoDがDLC zipのまま）の場合 / Steam version with SoD as DLC zip
+
+Steam版ではSoDのテキストが `dlc/sod-dlc.zip` 内から読み込まれるため、WeiDUではなく `tools/` のスクリプトでzip内のTLKを差し替えます。手順は [tools/README.md](tools/README.md) を参照してください。
+
+On Steam, SoD text is loaded from inside `dlc/sod-dlc.zip`; use the scripts in `tools/` to replace the TLKs in the zip. See [tools/README.md](tools/README.md).
+
 ## 開発 / Development
 
 ### 必要なツール / Required Tools
